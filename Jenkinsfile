@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven'
-        jdk 'JDK'
+        maven 'Maven'   // Must match the Maven installation name in Jenkins
+        jdk 'JDK'       // Must match the JDK installation name in Jenkins
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Akash1738/maven-project.git'
+                git branch: 'main', url: 'https://github.com/Akash1738/maven-project.git'
             }
         }
 
@@ -23,6 +23,15 @@ pipeline {
             steps {
                 sh 'mvn test'
             }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Build and tests completed successfully!'
+        }
+        failure {
+            echo '❌ Build failed. Please check the logs.'
         }
     }
 }
